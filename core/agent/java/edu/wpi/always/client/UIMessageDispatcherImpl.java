@@ -2,7 +2,7 @@ package edu.wpi.always.client;
 
 import java.util.HashMap;
 import java.util.concurrent.ExecutorService;
-import edu.wpi.disco.rt.util.ThreadPools;
+import edu.wpi.disco.rt.util.*;
 
 public class UIMessageDispatcherImpl implements UIMessageDispatcher,
       TcpConnectionObserver {
@@ -39,12 +39,11 @@ public class UIMessageDispatcherImpl implements UIMessageDispatcher,
    public void handleMessage (String text) {
       for (String s : JsonBreakDown.stringsOfIndividualClsses(text)) {
          final Message msg = json.parse(s);
-         if ( msg == null )
-            continue;
-         if ( !handlers.containsKey(msg.getType()) )
-            throw new InvalidMessageTypeException(msg.getType());
-         receivedMessageNotifierService.execute(new Runnable() {
-
+         if ( msg == null ) continue;
+         if ( !handlers.containsKey(msg.getType()) ) 
+            Utils.lnprint(System.out, "Ignoring unhandled message: "+text);
+            //throw new InvalidMessageTypeException(msg.getType());
+         else receivedMessageNotifierService.execute(new Runnable() {
             @Override
             public void run () {
                handlers.get(msg.getType()).handleMessage(msg.getBody());
