@@ -107,7 +107,6 @@ public:
 			WSACleanup();
 			return 1;
 		}
-		return 0;
 	}
 	/***************TERMINATE SOCKET***************/
 	void terminateSocket()
@@ -127,7 +126,6 @@ public:
 			WSACleanup();
 			return 1;
 		}
-		return 0;
 
 	//	printf("Bytes Sent: %ld\n", iResult);
 	}
@@ -157,7 +155,7 @@ public:
 			else if ( iResult == 0 )
 			{
 				printf("\nFaceDetection.DLL: Connection closed\n");
-				//exit(0);
+				exit(0);
 			}
 			else
 			{
